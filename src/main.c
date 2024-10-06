@@ -43,24 +43,23 @@ void cat_image(char *filename, bool show_info, bool show_image)
     stbi_image_free(pixels);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 #if defined(_WIN64) || defined(_WIN32)
     // Set the console output to UTF-8
     SetConsoleOutputCP(CP_UTF8);
 #endif
 
-    char filenames[][80] = {
-        // "./images/bird.jpg",
-        // "./images/google-logo.png",
-        // "./images/baboon.png",
-        // "./images/vangogh.png",
-        "./images/bird-small.jpg",
-        "./images/vangogh-small.png",
-    };
+    if (argc == 1) {
+        fprintf(stderr, "[Error] Expected at least one path to the image\n");
+        exit(1);
+    }
+
     int i;
-    for (i=0; i<sizeof(filenames)/sizeof(filenames[0]); ++i) {
-        cat_image(filenames[i], false, true);
+    --argc;
+    ++argv;
+    for (i=0; i<argc; ++i) {
+        cat_image(argv[i], false, true);
     }
 
     return 0;
